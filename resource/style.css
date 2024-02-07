@@ -1,0 +1,54 @@
+:root {
+  --footer-size: 9rem;
+  --header-size: 2.8rem;
+}
+
+body {
+  overflow: hidden;
+}
+
+main {
+  height: calc(100vh - var(--footer-size));
+  overflow-y: scroll;
+}
+
+footer {
+  height: var(--footer-size);
+}
+
+img[data-bs-toggle='modal'] {
+  height: calc(var(--header-size) - 1rem);
+}
+
+[id^='counterlink-'].card-header {
+  border-radius: 0 var(--bs-card-inner-border-radius) 0 0;
+}
+
+[id^='counterlink-'].form-check-input {
+  border: solid var(--bs-card-border-color);
+  border-width: 0 0 0 var(--bs-card-border-width);
+  height: var(--header-size);
+  width: var(--header-size);
+}
+
+[id^='counterlink-'].form-check-input:focus {
+  box-shadow: none;
+}
+
+[id^='counterlink-'].form-check-input:checked[type=checkbox] {
+  background-image: url('../image/check.svg');
+}
+
+.tooltip-danger {
+  --bs-tooltip-bg: var(--bs-danger);
+}
+
+.placeholder {
+  cursor: auto;
+}
+
+.modal-body > img {
+  background: linear-gradient(45deg, #b2b2b2 25%, transparent 25%, transparent 75%, #b2b2b2 75%), linear-gradient(45deg, #b2b2b2 25%, transparent 25%, transparent 75%, #b2b2b2 75%);
+  background-position: 0 0, 15px 15px;
+  background-size: 25px 25px;
+}
