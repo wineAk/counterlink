@@ -202,9 +202,10 @@ window.addEventListener('load', _ => {
       { demo: true, text: [3, 7], checked: 'checked', href: [2, 9, 5] },
     ]
     const placeholderHtml = ary => ary.map(v => `<span class="placeholder col-${v}"></span>`).join('\n')
-    const placeholderHtmlAry = placeholderAry.map(obj => {
+    const placeholderHtmlAry = placeholderAry.map((obj, index) => {
       obj.text = placeholderHtml(obj.text)
       obj.href = placeholderHtml(obj.href)
+      obj.index = index
       const html = getSettingHtmlAry(obj)
       return html
     })
