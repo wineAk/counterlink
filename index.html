@@ -21,172 +21,73 @@
 
 <body>
   <main>
-
-    <!-- ファイル選択 -->
-    <article class="container my-5">
-      <h3>ファイル選択</h3>
+    <article class="container">
       <div class="row">
-        <div class="col-sm-12 col-md-6">
+        <!-- ファイル選択 -->
+        <section class="col-sm-12 col-md-6 mt-5">
+          <h3>ファイル選択</h3>
           <label for="file" class="form-label">HTMLファイルを選択してください</label>
           <input class="form-control" type="file" id="file" accept=".html, .htm">
-        </div>
+        </section>
+        <!-- カウンタ付リンクの設定 -->
+        <section class="col-12 mt-5">
+          <h3>カウンタ付リンクの設定</h3>
+          <p>☑ が付いているURLをカウンタ付リンクに変更します。</p>
+          <div class="row" id="counterLink"></div>
+        </section>
       </div>
-    </article>
-
-    <!-- カウンタ付リンクの設定 -->
-    <article class="container my-5">
-      <h3>カウンタ付リンクの設定</h3>
-      <p>☑ が付いているURLをカウンタ付リンクに変更します。</p>
-      <div class="row" id="counterLink">
-        <!-- Placeholders -->
-        <div class="col-sm-12 col-md-6 col-lg-4 col-xxl-3">
-          <div class="bg-secondary bg-light-subtle card my-1 overflow-hidden">
-            <div class="align-items-center card-header d-flex h4 justify-content-between p-0">
-              <img src="image/img.svg" class="ms-3" data-bs-toggle="modal" data-bs-target="#dammyModal" role="button">
-              <p class="m-0 py-2 px-3 text-truncate w-100">
-                <span class="placeholder col-2"></span>
-                <span class="placeholder col-9"></span>
-              </p>
-              <input class="bg-transparent flex-shrink-0 form-check-input h2 m-0 rounded-0" type="checkbox" id="counterlink-p2" role="button" checked>
-            </div>
-            <div class="card-body">
-              <span class="placeholder col-2"></span>
-              <span class="placeholder col-9"></span>
-              <span class="placeholder col-8"></span>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-12 col-md-6 col-lg-4 col-xxl-3">
-          <div class="bg-secondary card my-1 overflow-hidden">
-            <div class="align-items-center card-header d-flex h4 justify-content-between p-0">
-              <p class="m-0 py-2 px-3 text-truncate w-100">
-                <span class="placeholder col-10"></span>
-              </p>
-              <input class="bg-transparent flex-shrink-0 form-check-input h2 m-0 rounded-0" type="checkbox" id="counterlink-p1" role="button">
-            </div>
-            <div class="card-body">
-              <span class="placeholder col-2"></span>
-              <span class="placeholder col-6"></span>
-              <span class="placeholder col-2"></span>
-              <span class="placeholder col-5"></span>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-12 col-md-6 col-lg-4 col-xxl-3">
-          <div class="bg-secondary bg-light-subtle card my-1 overflow-hidden">
-            <div class="align-items-center card-header d-flex h4 justify-content-between p-0">
-              <p class="m-0 py-2 px-3 text-truncate w-100">
-                <span class="placeholder col-6"></span>
-              </p>
-              <input class="bg-transparent flex-shrink-0 form-check-input h2 m-0 rounded-0" type="checkbox" id="counterlink-p3" role="button" checked>
-            </div>
-            <div class="card-body">
-              <span class="placeholder col-2"></span>
-              <span class="placeholder col-6"></span>
-              <span class="placeholder col-3"></span>
-              <span class="placeholder col-5"></span>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-12 col-md-6 col-lg-4 col-xxl-3">
-          <div class="bg-secondary card my-1 overflow-hidden">
-            <div class="align-items-center card-header d-flex h4 justify-content-between p-0">
-              <p class="m-0 py-2 px-3 text-truncate w-100">
-                <span class="placeholder col-7"></span>
-              </p>
-              <input class="bg-transparent flex-shrink-0 form-check-input h2 m-0 rounded-0" type="checkbox" id="counterlink-p4" role="button">
-            </div>
-            <div class="card-body">
-              <span class="placeholder col-2"></span>
-              <span class="placeholder col-6"></span>
-              <span class="placeholder col-3"></span>
-              <span class="placeholder col-5"></span>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-12 col-md-6 col-lg-4 col-xxl-3">
-          <div class="bg-secondary bg-light-subtle card my-1 overflow-hidden">
-            <div class="align-items-center card-header d-flex h4 justify-content-between p-0">
-              <p class="m-0 py-2 px-3 text-truncate w-100">
-                <span class="placeholder col-9"></span>
-              </p>
-              <input class="bg-transparent flex-shrink-0 form-check-input h2 m-0 rounded-0" type="checkbox" id="counterlink-p5" role="button" checked>
-            </div>
-            <div class="card-body">
-              <span class="placeholder col-2"></span>
-              <span class="placeholder col-7"></span>
-              <span class="placeholder col-4"></span>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-12 col-md-6 col-lg-4 col-xxl-3">
-          <div class="bg-secondary bg-light-subtle card my-1 overflow-hidden">
-            <div class="align-items-center card-header d-flex h4 justify-content-between p-0">
-              <p class="m-0 py-2 px-3 text-truncate w-100">
-                <span class="placeholder col-3"></span>
-                <span class="placeholder col-7"></span>
-              </p>
-              <input class="bg-transparent flex-shrink-0 form-check-input h2 m-0 rounded-0" type="checkbox" id="counterlink-p6" role="button" checked>
-            </div>
-            <div class="card-body">
-              <span class="placeholder col-2"></span>
-              <span class="placeholder col-9"></span>
-              <span class="placeholder col-5"></span>
-            </div>
-          </div>
-        </div>
-        <!-- Placeholders end -->
-      </div>
-
-      <!-- Placeholders -->
-      <div class="modal fade" id="dammyModal" tabindex="-1" aria-labelledby="dammyModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5 w-100" id="dammyModalLabel">
-                <span class="placeholder col-1"></span>
-                <span class="placeholder col-6"></span>
-                <span class="placeholder col-3"></span>
-              </h1>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <img src="image/640x320.jpg" class="border img-fluid mb-5 p-2 rounded shadow">
-              <span class="placeholder col-1"></span>
-              <span class="placeholder col-5"></span>
-              <span class="placeholder col-4"></span>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <!-- モーダル -->
-      <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="imageModalLabel">alt</h1>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <img src="" class="border img-fluid mb-5 p-2 rounded shadow">
-              <a href="#url#" target="_blank" class="card-text link-dark text-break">#url#</a>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
     </article>
   </main>
 
+  <!-- モーダル -->
+  <article>
+    <!-- 画像 -->
+    <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5 w-100" id="imageModalLabel">
+              <span class="placeholder col-1"></span>
+              <span class="placeholder col-6"></span>
+              <span class="placeholder col-3"></span>
+            </h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <img src="image/640x320.jpg" class="border img-fluid mb-5 p-2 rounded shadow">
+            <a target="_blank" class="card-text link-dark text-break">
+              <span class="placeholder col-1"></span>
+              <span class="placeholder col-5"></span>
+              <span class="placeholder col-4"></span>
+            </a>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- スコア -->
+    <div class="modal fade" id="scoreModal" tabindex="-1" aria-labelledby="scoreModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5 w-100" id="scoreModalLabel">
+              スコアの付与
+            </h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+
   <!-- フッター -->
-  <footer class="navbar bg-dark flex-column fixed-bottom text-center text-light">
+  <footer class="bg-dark pt-2 text-center text-light">
     <button class="btn btn-lg btn-success my-3" type="button" id="download" disabled>HTMLのダウンロード</button>
     <div>Version <span id="version">0.0.0</span></div>
     <div>© 2024 InterPark Co.,Ltd. All Rights Reserved.</div>

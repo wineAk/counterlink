@@ -9,6 +9,7 @@ body {
 
 main {
   height: calc(100vh - var(--footer-size));
+  padding-bottom: 3rem;
   overflow-y: scroll;
 }
 
@@ -18,6 +19,10 @@ footer {
 
 img[data-bs-toggle='modal'] {
   height: calc(var(--header-size) - 1rem);
+}
+
+a:not([href]) {
+  text-decoration: none;
 }
 
 [id^='counterlink-'].card-header {
@@ -51,4 +56,5 @@ img[data-bs-toggle='modal'] {
   background: linear-gradient(45deg, #b2b2b2 25%, transparent 25%, transparent 75%, #b2b2b2 75%), linear-gradient(45deg, #b2b2b2 25%, transparent 25%, transparent 75%, #b2b2b2 75%);
   background-position: 0 0, 15px 15px;
   background-size: 25px 25px;
+  /*filter: drop-shadow(5px 5px 5px #aaa);*/
 }

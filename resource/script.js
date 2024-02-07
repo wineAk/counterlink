@@ -5,6 +5,15 @@ window.addEventListener('load', _ => {
   document.getElementById('version').innerText = 'v1.0.1'
 
   /**
+   * エスケープ
+   */
+  const escape = str => {
+    if (str == null) return null
+    const rep = str.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;').trim()
+    return rep
+  }
+
+  /**
    * ☑外したら色を変える
    */
   const changeChecked = event => {
@@ -20,14 +29,37 @@ window.addEventListener('load', _ => {
   document.querySelectorAll('[id^="counterlink-"]').forEach(elm => elm.addEventListener('change', event => changeChecked(event)))
 
   /**
+   * 設定一覧のelementを返す
+   * @param {object} obj - alt, src, tooltip, error, text, index, checked, href
+   * @return {string} html
+   */
+  const getSettingHtmlAry = obj => {
+    const { alt, src, tooltip, error, text, index, checked, href, demo } = obj
+    const dataBsAlt = (demo) ? '' : `data-bs-alt="${alt}" `
+    const dataBsSrc = (demo) ? '' : `data-bs-src="${src}" `
+    const dataBsHref = (demo) ? '' : `data-bs-href="${href}" `
+    const modalHtml = (alt == null) ? '' : `<img src="image/img.svg" class="my-auto ms-3" data-bs-toggle="modal" data-bs-target="#imageModal" ${dataBsAlt} ${dataBsSrc} ${dataBsHref} role="button"></img>`
+    const aTag = (demo) ? `<a class="card-text link-dark text-break">${href}</a>` : `<a href="${href}" target="_blank" class="card-text link-dark text-break">${href}</a>`
+    const HTML = `
+    <div class="col-sm-12 col-md-6 col-lg-4 col-xxl-3">
+      <div class="bg-secondary card my-1 overflow-hidden">
+        <div class="card-header d-flex h4 justify-content-between p-0">
+          ${modalHtml}
+          <p class="m-0 py-2 px-3 text-truncate w-100" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="${tooltip}" data-bs-custom-class="${error}">${text}</p>
+          <input class="bg-transparent flex-shrink-0 form-check-input h2 m-0 rounded-0" type="checkbox" id="counterlink-${index}" role="button" ${checked}>
+        </div>
+        <div class="card-body">
+          ${aTag}
+        </div>
+      </div>
+    </div>`
+    return HTML
+  }
+
+  /**
    * ファイルの読み込み
    */
   const getTitle = elm => {
-    const escape = str => {
-      if (str == null) return null
-      const rep = str.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;').trim()
-      return rep
-    }
     // テキスト
     const innerText = elm.innerText
     // 画像
@@ -60,9 +92,8 @@ window.addEventListener('load', _ => {
         const href = elm.href
         // 画像
         const imgElm = elm.querySelector('img')
-        const alt = imgElm?.getAttribute('alt')
+        const alt = (imgElm) ? escape(imgElm.getAttribute('alt')) : null
         const src = imgElm?.getAttribute('src')
-        const isModal = (alt == null) ? '' : `<img src="image/img.svg" class="my-auto ms-3" data-bs-toggle="modal" data-bs-target="#imageModal" data-bs-alt="${alt}" data-bs-src="${src}" data-bs-href="${href}" role="button"></img>`
         // 相対パス
         const location = window.location
         const origin = location.origin
@@ -76,19 +107,8 @@ window.addEventListener('load', _ => {
         // ツールチップの内容
         const tooltip = (isNotPath) ? '⚠ 相対パスです' : (isNotURL) ? '⚠ パスがありません' : (isNotText) ? '⚠ タイトルがありません' : text
         const error = (isNotPath || isNotURL || isNotText) ? 'tooltip-danger' : 'tooltip-non'
-        const HTML = `
-        <div class="col-sm-12 col-md-6 col-lg-4 col-xxl-3">
-          <div class="bg-secondary card my-1 overflow-hidden">
-            <div class="card-header d-flex h4 justify-content-between p-0">
-              ${isModal}
-              <p class="m-0 py-2 px-3 text-truncate w-100" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="${tooltip}" data-bs-custom-class="${error}">${text}</p>
-              <input class="bg-transparent flex-shrink-0 form-check-input h2 m-0 rounded-0" type="checkbox" id="counterlink-${index}" role="button" ${isChecked}>
-            </div>
-            <div class="card-body">
-              <a href="${href}" target="_blank" class="card-text link-dark text-break">${href}</a>
-            </div>
-          </div>
-        </div>`
+        const object = { alt: alt, src: src, tooltip: tooltip, error: error, text: text, index: index, checked: isChecked, href: href }
+        const HTML = getSettingHtmlAry(object)
         return HTML
       })
       if (!elmAry.length) {
@@ -123,9 +143,10 @@ window.addEventListener('load', _ => {
       const alt = button.getAttribute('data-bs-alt')
       const src = button.getAttribute('data-bs-src')
       const href = button.getAttribute('data-bs-href')
-      imageModalElm.querySelector('img').src = src
-      imageModalElm.querySelector('h1').innerText = alt
-      imageModalElm.querySelector('a').innerText = href
+      if (src) imageModalElm.querySelector('img').src = src
+      if (alt) imageModalElm.querySelector('h1').innerText = alt
+      if (href) imageModalElm.querySelector('a').innerText = href
+      if (href) imageModalElm.querySelector('a').href = href
     })
   }
 
@@ -167,5 +188,34 @@ window.addEventListener('load', _ => {
     aElm.href = blobUrl
     aElm.click()
   })
+
+  /**
+   * placeholder
+   */
+  const setPlaceholder = _ => {
+    const placeholderAry = [
+      { demo: true, text: [2, 9], checked: 'checked', href: [2, 9, 8], alt: 'demo' },
+      { demo: true, text: [10], checked: '', href: [2, 6, 2, 5] },
+      { demo: true, text: [6], checked: 'checked', href: [2, 6, 3, 5] },
+      { demo: true, text: [7], checked: '', href: [2, 6, 3, 5] },
+      { demo: true, text: [9], checked: 'checked', href: [2, 7, 4] },
+      { demo: true, text: [3, 7], checked: 'checked', href: [2, 9, 5] },
+    ]
+    const placeholderHtml = ary => ary.map(v => `<span class="placeholder col-${v}"></span>`).join('\n')
+    const placeholderHtmlAry = placeholderAry.map(obj => {
+      obj.text = placeholderHtml(obj.text)
+      obj.href = placeholderHtml(obj.href)
+      const html = getSettingHtmlAry(obj)
+      return html
+    })
+    const html = placeholderHtmlAry.join('\n')
+    document.getElementById('counterLink').innerHTML = html
+    // チェックの処理
+    document.querySelectorAll('[id^="counterlink-"]').forEach(elm => {
+      changeChecked({ target: elm })
+      elm.addEventListener('change', event => changeChecked(event))
+    })
+  }
+  setPlaceholder()
 
 })
