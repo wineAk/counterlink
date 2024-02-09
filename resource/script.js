@@ -2,7 +2,7 @@ window.addEventListener('load', _ => {
   /**
    * バージョン
    */
-  document.getElementById('version').innerText = 'v1.1.1'
+  document.getElementById('version').innerText = 'v1.2.0'
 
   /**
    * エスケープ
