@@ -26,7 +26,38 @@ window.addEventListener('load', _ => {
       cardElm.classList.remove(cardClassName)
     }
   }
-  document.querySelectorAll('[id^="counterlink-"]').forEach(elm => elm.addEventListener('change', event => changeChecked(event)))
+
+  /**
+   * スコア値の制御
+   */
+  const changeScore = elm => {
+    elm.addEventListener('change', event => {
+      const value = event.target.value
+      const number = Number(value)
+      event.target.value = (number < -100) ? -100 : (number > 100) ? 100 : number
+    })
+  }
+  changeScore(document.querySelector('#scoreValue'))
+
+
+  /**
+   * モーダルの処理
+   */
+  const imageModalElm = document.getElementById('imageModal')
+  imageModalElm.addEventListener('show.bs.modal', event => {
+    const button = event.relatedTarget
+    const src = button.getAttribute('data-bs-src')
+    const bodyHtml = (src) ? `<img src="${src}" class="img-fluid">` : ''
+    imageModalElm.querySelector('.modal-body').innerHTML = bodyHtml
+  })
+
+  /**
+   * スコア一括
+   */
+  document.getElementById('scoreSet').addEventListener('click', event => {
+    const value = document.getElementById('scoreValue').value
+    document.querySelectorAll('[id^="counterlink-no-"] [type="number"]').forEach(e => e.value = value)
+  })
 
   /**
    * 設定一覧のelementを返す
@@ -34,22 +65,28 @@ window.addEventListener('load', _ => {
    * @return {string} html
    */
   const getSettingHtmlAry = obj => {
-    const { alt, src, tooltip, error, text, index, checked, href, demo } = obj
-    const dataBsAlt = (demo) ? '' : `data-bs-alt="${alt}" `
-    const dataBsSrc = (demo) ? '' : `data-bs-src="${src}" `
-    const dataBsHref = (demo) ? '' : `data-bs-href="${href}" `
-    const modalHtml = (alt == null) ? '' : `<img src="image/img.svg" class="my-auto ms-3" data-bs-toggle="modal" data-bs-target="#imageModal" ${dataBsAlt} ${dataBsSrc} ${dataBsHref} role="button"></img>`
-    const aTag = (demo) ? `<a class="card-text link-dark text-break">${href}</a>` : `<a href="${href}" target="_blank" class="card-text link-dark text-break">${href}</a>`
+    const { alt, checked, error, href, index, src, text, tooltip } = obj
+    const imageButton = (alt == null) ? '' : `<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#imageModal" $data-bs-alt="${alt}" data-bs-src="${src}" data-bs-href="${href}" >画像</button>`
     const HTML = `
-    <div class="col-sm-12 col-md-6 col-lg-4 col-xxl-3">
-      <div class="bg-secondary card my-1 overflow-hidden">
-        <div class="card-header d-flex h4 justify-content-between p-0">
-          ${modalHtml}
+    <div class="col-sm-12 col-md-6 col-lg-4 col-xxl-3 mb-3" id="counterlink-no-${index}">
+      <div class="card h-100 bg-secondary">
+        <div class="card-header d-flex justify-content-between p-0">
           <p class="m-0 py-2 px-3 text-truncate w-100" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="${tooltip}" data-bs-custom-class="${error}">${text}</p>
-          <input class="bg-transparent flex-shrink-0 form-check-input h2 m-0 rounded-0" type="checkbox" id="counterlink-${index}" role="button" ${checked}>
+          <input class="bg-transparent flex-shrink-0 form-check-input h2 m-0 rounded-0" type="checkbox" role="button" ${checked}>
         </div>
         <div class="card-body">
-          ${aTag}
+          <a href="${href}" target="_blank" class="card-text link-dark text-break">${href}</a>
+        </div>
+        <div class="card-footer border-top-0 pt-0 pb-3 bg-transparent d-flex flex-wrap justify-content-between">
+          <div class="input-group mb-3">
+            <span class="input-group-text border-end-0">タイトル</span>
+            <textarea class="form-control" aria-label="${text}">${text}</textarea>
+          </div>
+          <div class="input-group w-75">
+            <span class="input-group-text border-end-0">スコア値</span>
+            <input type="number" class="form-control" id="counterlink-score-${index}"  min="-100" max="100" value="0">
+          </div>
+          ${imageButton}
         </div>
       </div>
     </div>`
@@ -59,16 +96,6 @@ window.addEventListener('load', _ => {
   /**
    * ファイルの読み込み
    */
-  const getTitle = elm => {
-    // テキスト
-    const innerText = elm.innerText
-    // 画像
-    const alt = elm.querySelector('img')?.getAttribute('alt')
-    // HTML
-    const innerHTML = elm.innerHTML
-    const text = escape(alt) || escape(innerText) || escape(innerHTML)
-    return text
-  }
   let htmlFileName = ''
   let htmlFileDom = null
   document.getElementById('file').addEventListener('change', event => {
@@ -88,25 +115,37 @@ window.addEventListener('load', _ => {
       const html = reader.result
       const dom = new DOMParser().parseFromString(html, "text/html")
       const elmAry = Array.from(dom.querySelectorAll('a')).map((elm, index) => {
+        console.log('elmAry - elm:', elm)
         // URL
         const href = elm.href
+        // インナーテキスト
+        const innerText = escape(elm.innerText)
         // 画像
         const imgElm = elm.querySelector('img')
-        const alt = (imgElm) ? escape(imgElm.getAttribute('alt')) : null
+        const alt = escape(imgElm?.getAttribute('alt'))
         const src = imgElm?.getAttribute('src')
+        // 双方なければ【テキストなし】
+        const text = (alt) ? alt : (innerText) ? innerText : (src) ? '【テキストなし】' : ''
+
         // 相対パス
         const location = window.location
         const origin = location.origin
-        // タイトル
-        const text = getTitle(elm)
+
+        // 相対パスの表示を作る
+        // ※このあたりはあとで作る
+        //const originAry = origin.split('/')
+        //const hrefAry = href.split('/')
+        //const tes = hrefAry.filter(v => !originAry.includes(v))
+
         // URLが相対パス、URLがない、タイトルがない、の場合はチェックしない
         const isNotPath = (new RegExp(`^${origin}`).test(href))
+        const isNotHttp = (!isNotPath && !/^http/.test(href))
         const isNotURL = (!href.length)
         const isNotText = (!text.length)
-        const isChecked = (isNotPath || isNotURL || isNotText) ? '' : 'checked'
         // ツールチップの内容
-        const tooltip = (isNotPath) ? '⚠ 相対パスです' : (isNotURL) ? '⚠ パスがありません' : (isNotText) ? '⚠ タイトルがありません' : text
-        const error = (isNotPath || isNotURL || isNotText) ? 'tooltip-danger' : 'tooltip-non'
+        const tooltip = (isNotPath) ? '⚠ 相対パスです' : (isNotHttp) ? '⚠ URLではありません' : (isNotURL) ? '⚠ パスがありません' : (isNotText) ? '⚠ タイトルがありません' : text
+        const error = (/^⚠/.test(tooltip)) ? 'tooltip-danger' : 'tooltip-non'
+        const isChecked = (/^⚠/.test(tooltip)) ? '' : 'checked'
         const object = { alt: alt, src: src, tooltip: tooltip, error: error, text: text, index: index, checked: isChecked, href: href }
         const HTML = getSettingHtmlAry(object)
         return HTML
@@ -122,10 +161,12 @@ window.addEventListener('load', _ => {
       // 読み込んだHTMLファイルのDOMを保持させる
       htmlFileDom = dom
       // チェックの処理
-      document.querySelectorAll('[id^="counterlink-"]').forEach(elm => {
+      document.querySelectorAll('[id^="counterlink-no-"] input[type="checkbox"]').forEach(elm => {
         changeChecked({ target: elm })
         elm.addEventListener('change', event => changeChecked(event))
       })
+      // スコアの処理
+      document.querySelectorAll('[id^="counterlink-no-"] [type="number"]').forEach(elm => changeScore(elm))
       // ツールチップ
       const tooltipList = Array.from(document.querySelectorAll('[data-bs-toggle="tooltip"]')).map(elm => {
         if (elm.getAttribute('data-bs-title') !== '') new bootstrap.Tooltip(elm)
@@ -134,40 +175,25 @@ window.addEventListener('load', _ => {
   })
 
   /**
-   * モーダルの処理
-   */
-  const imageModalElm = document.getElementById('imageModal')
-  if (imageModalElm) {
-    imageModalElm.addEventListener('show.bs.modal', event => {
-      const button = event.relatedTarget
-      const alt = button.getAttribute('data-bs-alt')
-      const src = button.getAttribute('data-bs-src')
-      const href = button.getAttribute('data-bs-href')
-      if (src) imageModalElm.querySelector('img').src = src
-      if (alt) imageModalElm.querySelector('h1').innerText = alt
-      if (href) imageModalElm.querySelector('a').innerText = href
-      if (href) imageModalElm.querySelector('a').href = href
-    })
-  }
-
-  /**
    * ダウンロード
    */
   document.getElementById('download').addEventListener('click', event => {
-    const checkedAry = Array.from(document.querySelectorAll('[id^="counterlink-"]')).map(elm => elm.checked)
+    const checkAry = Array.from(document.querySelectorAll('[id^="counterlink-no-"] [type="checkbox"]')).map(elm => elm.checked)
+    const titleAry = Array.from(document.querySelectorAll('[id^="counterlink-no-"] textarea')).map(elm => escape(elm.value.replace(/[\[:|\]]/g, '')))
+    const scoreAry = Array.from(document.querySelectorAll('[id^="counterlink-no-"] [type="number"]')).map(elm => elm.value)
     // 保存したDOMをコピー
     const dom = htmlFileDom.getElementsByTagName('html')[0].cloneNode(true)
     // カウンタ付リンクに変換
     dom.querySelectorAll('a').forEach((elm, index) => {
       const href = elm.href
-      const text = getTitle(elm).replace(/[\[:|\]]/g, '')
-      const isChecked = checkedAry[index]
+      // Todo　テキストボックスにかえる
+      const text = titleAry[index]
+      const isChecked = checkAry[index]
+      const score = scoreAry[index]
       const webform = href.match(/secure-link\.jp\/wf\/\?c=(wf.+)/)
       if (!isChecked) return
-      // Webフォームではない、もしくは差込みキーがある場合はlcにする
-      //const counterlink = (webform == null || /\$(E-)?dt_(.*?)\$/.test(webform[1])) ? `[[lc:${href}|${text}]]` : `[[wf:${webform[1]}|${text}]]`
       // Webフォームではない場合はlcにする
-      const counterlink = (webform == null) ? `[[lc:${href}|${text}]]` : `[[wf:${webform[1]}|${text}]]`
+      const counterlink = (webform == null) ? `[[lc:${href}|${text}|${score}]]` : `[[wf:${webform[1]}|${text}|${score}]]`
       // wfの場合 &sskc=$dt_code$ が不要なので削除
       elm.href = (/\[\[wf:/.test(counterlink)) ? counterlink.replace(/&sskc=\$dt_code\$/, '') : counterlink
     })
@@ -175,9 +201,7 @@ window.addEventListener('load', _ => {
     const outerHTML = dom.outerHTML
     // カウンタ付リンクにするURLに&amp;があると、&ではなく&amp;で処理されてしまうので置換
     const repOuterHTML = outerHTML.replace(/\[\[(lc|wf):(.*?)\|/g, (match, head, url) => `[[${head}:${url.replace(/&amp;/g, '&')}|`)
-    //console.log('👘 - document.getElementById - m:', m)
     const html = `<!DOCTYPE html>\n${repOuterHTML}`
-    //const html = ('<!DOCTYPE html>\n' + dom.outerHTML).replace(/\[\[(lc|wf):(.*?)\|/g, '&')
     // Blobオブジェクトに変換
     const blob = new Blob([html], { type: 'text/html' })
     // URL作成
@@ -188,35 +212,5 @@ window.addEventListener('load', _ => {
     aElm.href = blobUrl
     aElm.click()
   })
-
-  /**
-   * placeholder
-   */
-  const setPlaceholder = _ => {
-    const placeholderAry = [
-      { demo: true, text: [2, 9], checked: 'checked', href: [2, 9, 8], alt: 'demo' },
-      { demo: true, text: [10], checked: '', href: [2, 6, 2, 5] },
-      { demo: true, text: [6], checked: 'checked', href: [2, 6, 3, 5] },
-      { demo: true, text: [7], checked: '', href: [2, 6, 3, 5] },
-      { demo: true, text: [9], checked: 'checked', href: [2, 7, 4] },
-      { demo: true, text: [3, 7], checked: 'checked', href: [2, 9, 5] },
-    ]
-    const placeholderHtml = ary => ary.map(v => `<span class="placeholder col-${v}"></span>`).join('\n')
-    const placeholderHtmlAry = placeholderAry.map((obj, index) => {
-      obj.text = placeholderHtml(obj.text)
-      obj.href = placeholderHtml(obj.href)
-      obj.index = index
-      const html = getSettingHtmlAry(obj)
-      return html
-    })
-    const html = placeholderHtmlAry.join('\n')
-    document.getElementById('counterLink').innerHTML = html
-    // チェックの処理
-    document.querySelectorAll('[id^="counterlink-"]').forEach(elm => {
-      changeChecked({ target: elm })
-      elm.addEventListener('change', event => changeChecked(event))
-    })
-  }
-  setPlaceholder()
 
 })

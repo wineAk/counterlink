@@ -29,6 +29,19 @@
           <label for="file" class="form-label">HTMLファイルを選択してください</label>
           <input class="form-control" type="file" id="file" accept=".html, .htm">
         </section>
+        <!-- スコアの一括付与 -->
+        <section class="col-sm-12 col-md-6 mt-5">
+          <h3>スコアの一括付与</h3>
+          <p class="mb-2">スコア値を一括で変更します。</p>
+          <div class="d-flex">
+            <div class="input-group w-50 me-2">
+              <span class="input-group-text border-end-0">スコア値</span>
+              <input type="number" class="form-control" id="scoreValue" min="-100" max="100" value="0">
+            </div>
+            <button type="button" class="btn btn-success" id="scoreSet">変更</button>
+          </div>
+      </section>
+
         <!-- カウンタ付リンクの設定 -->
         <section class="col-12 mt-5">
           <h3>カウンタ付リンクの設定</h3>
@@ -40,48 +53,13 @@
   </main>
 
   <!-- モーダル -->
-  <article>
-    <!-- 画像 -->
-    <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5 w-100" id="imageModalLabel">
-              <span class="placeholder col-1"></span>
-              <span class="placeholder col-6"></span>
-              <span class="placeholder col-3"></span>
-            </h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <img src="image/640x320.jpg" class="border img-fluid mb-5 p-2 rounded shadow">
-            <a target="_blank" class="card-text link-dark text-break">
-              <span class="placeholder col-1"></span>
-              <span class="placeholder col-5"></span>
-              <span class="placeholder col-4"></span>
-            </a>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
-          </div>
+  <article class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header border-0">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-      </div>
-    </div>
-    <!-- スコア -->
-    <div class="modal fade" id="scoreModal" tabindex="-1" aria-labelledby="scoreModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5 w-100" id="scoreModalLabel">
-              スコアの付与
-            </h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body"></div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
-          </div>
-        </div>
+        <div class="modal-body p-5 pt-0"></div>
       </div>
     </div>
   </article>
