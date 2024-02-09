@@ -20,6 +20,26 @@
 </head>
 
 <body>
+  <header class="navbar navbar-expand-lg bg-body-tertiary">
+    <nav class="container-fluid">
+      
+      <div class="collapse navbar-collapse">
+        <div class="navbar-nav me-auto mb-2 mb-lg-0">
+          <div class="nav-item">
+            <div class="nav-link navbar-brand">
+              <span class="h5 me-1">カウンタ付リンクの生成ツール</span>
+              <span class="h6">v<span id="version">0.0.0</span></span>
+            </div>
+          </div>
+          <div class="nav-item">
+            <a class="btn btn-wiki" href="https://wiki.interpark.co.jp/65c30a0eefaf495951476848" target="_blank">使い方</a>
+          </div>
+        </div>
+        <button class="btn btn-success" type="button" id="download" disabled>HTMLのダウンロード</button>
+      </div>
+    </nav>
+  </header>
+
   <main>
     <article class="container">
       <div class="row">
@@ -40,7 +60,7 @@
             </div>
             <button type="button" class="btn btn-success" id="scoreSet">変更</button>
           </div>
-      </section>
+        </section>
 
         <!-- カウンタ付リンクの設定 -->
         <section class="col-12 mt-5">
@@ -65,9 +85,7 @@
   </article>
 
   <!-- フッター -->
-  <footer class="bg-dark pt-2 text-center text-light">
-    <button class="btn btn-lg btn-success my-3" type="button" id="download" disabled>HTMLのダウンロード</button>
-    <div>Version <span id="version">0.0.0</span></div>
+  <footer class="bg-dark text-center text-light d-flex justify-content-center align-items-center">
     <div>© 2024 InterPark Co.,Ltd. All Rights Reserved.</div>
   </footer>
 

@@ -1,16 +1,40 @@
 :root {
-  --footer-size: 9rem;
-  --header-size: 2.4rem;
+  --header-size: 4rem;
+  --footer-size: 2rem;
+  --card-header-size: 2.4rem;
 }
 
 body {
   overflow: hidden;
 }
 
+header {
+  height: var(--header-size);
+}
+
+.btn-wiki {
+  /* -4 -20 -13*/
+  --wiki-main: rgb(26, 63, 123);
+  --wiki-hover: rgb(22, 43, 110);
+  --bs-btn-color: #fff;
+  --bs-btn-bg: var(--wiki-main);
+  --bs-btn-border-color: var(--wiki-main);
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: var(--wiki-hover);
+  --bs-btn-hover-border-color: var(--wiki-hover);
+  --bs-btn-focus-shadow-rgb: 60,153,110;
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: var(--wiki-hover);
+  --bs-btn-active-border-color: var(--wiki-hover);
+  --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  --bs-btn-disabled-color: #fff;
+  --bs-btn-disabled-bg: var(--wiki-main);
+  --bs-btn-disabled-border-color: var(--wiki-main);
+}
+
 main {
-  height: calc(100vh - var(--footer-size));
+  height: calc(100vh - var(--header-size) - var(--footer-size));
   overflow-y: scroll;
-  padding-bottom: 3rem;
 }
 
 footer {
@@ -20,8 +44,8 @@ footer {
 #counterLink input[type='checkbox'].form-check-input {
   border: solid var(--bs-card-border-color);
   border-width: 0 0 0 var(--bs-card-border-width);
-  height: var(--header-size);
-  width: var(--header-size);
+  height: var(--card-header-size);
+  width: var(--card-header-size);
 }
 
 #counterLink input[type='checkbox'].form-check-input:focus {
