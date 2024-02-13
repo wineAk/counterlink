@@ -5,7 +5,37 @@
 }
 
 body {
-  overflow: hidden;
+  animation: gradient 15s ease infinite;
+  background: linear-gradient(-45deg, var(--bs-danger-bg-subtle), var(--bs-warning-bg-subtle), var(--bs-primary-bg-subtle), var(--bs-success-bg-subtle));
+  background-size: 400% 400%;
+  height: 100vh;
+  z-index: -100;
+}
+
+body::after {
+  background: var(--bs-body-bg);
+  content: '';
+  height: 100%;
+  left: 0;
+  opacity: 0.85;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: -1;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 header {
@@ -13,9 +43,9 @@ header {
 }
 
 header i {
-  width: 16px;
   height: 16px;
   text-align: center;
+  width: 16px;
 }
 
 header .dropdown-menu {

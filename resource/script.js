@@ -78,7 +78,7 @@ window.addEventListener('load', _ => {
     if (dropItemElm == null) return
     const text = dropItemElm.innerText
     if (/Light/.test(text)) {
-      htmlElm.dataset.bsTheme = ''
+      htmlElm.dataset.bsTheme = 'light'
       dropMenuElm.querySelector('i').classList = 'fa-solid fa-sun'
     } else {
       htmlElm.dataset.bsTheme = 'dark'
