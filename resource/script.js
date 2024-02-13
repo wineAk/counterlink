@@ -70,6 +70,8 @@ window.addEventListener('load', _ => {
   /**
    * テーマの変更
    */
+  const localTheme = localStorage.getItem('theme')
+  if (localTheme) document.getElementsByTagName('html')[0].dataset.bsTheme = localTheme
   const themeElm = document.getElementById('theme')
   themeElm.addEventListener('click', event => {
     const htmlElm = document.getElementsByTagName('html')[0]
@@ -78,9 +80,11 @@ window.addEventListener('load', _ => {
     if (dropItemElm == null) return
     const text = dropItemElm.innerText
     if (/Light/.test(text)) {
+      localStorage.setItem('theme', 'light')
       htmlElm.dataset.bsTheme = 'light'
       dropMenuElm.querySelector('i').classList = 'fa-solid fa-sun'
     } else {
+      localStorage.setItem('theme', 'dark')
       htmlElm.dataset.bsTheme = 'dark'
       dropMenuElm.querySelector('i').classList = 'fa-solid fa-moon'
     }
