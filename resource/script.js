@@ -29,11 +29,11 @@ window.addEventListener('load', _ => {
   const changeChecked = event => {
     const checkElm = event.target
     const cardElm = event.target.closest('.card')
-    const cardClassName = 'bg-light-subtle'
+    const cardClassName = 'opacity-35'
     if (checkElm.checked) {
-      cardElm.classList.add(cardClassName)
-    } else {
       cardElm.classList.remove(cardClassName)
+    } else {
+      cardElm.classList.add(cardClassName)
     }
   }
 
@@ -44,8 +44,7 @@ window.addEventListener('load', _ => {
   imageModalElm.addEventListener('show.bs.modal', event => {
     const button = event.relatedTarget
     const src = button.getAttribute('data-bs-src')
-    const bodyHtml = (src) ? `<img src="${src}" class="img-fluid">` : ''
-    imageModalElm.querySelector('.modal-body').innerHTML = bodyHtml
+    imageModalElm.querySelector('.modal-body').innerHTML = `<img src="${src}" class="img-fluid">`
   })
 
   /**
@@ -66,6 +65,25 @@ window.addEventListener('load', _ => {
   document.getElementById('scoreSet').addEventListener('click', event => {
     const value = document.getElementById('scoreValue').value
     document.querySelectorAll('[id^="counterlink-no-"] [type="number"]').forEach(e => e.value = value)
+  })
+
+  /**
+   * テーマの変更
+   */
+  const themeElm = document.getElementById('theme')
+  themeElm.addEventListener('click', event => {
+    const htmlElm = document.getElementsByTagName('html')[0]
+    const dropMenuElm = themeElm.previousElementSibling
+    const dropItemElm = event.target.closest('.dropdown-item')
+    if (dropItemElm == null) return
+    const text = dropItemElm.innerText
+    if (/Light/.test(text)) {
+      htmlElm.dataset.bsTheme = ''
+      dropMenuElm.querySelector('i').classList = 'fa-solid fa-sun'
+    } else {
+      htmlElm.dataset.bsTheme = 'dark'
+      dropMenuElm.querySelector('i').classList = 'fa-solid fa-moon'
+    }
   })
 
   /**
@@ -111,16 +129,16 @@ window.addEventListener('load', _ => {
         const error = (tooltip != text) ? 'tooltip-danger' : 'tooltip-non'
         const isChecked = (tooltip != text) ? '' : 'checked'
         const object = { alt: alt, src: src, tooltip: tooltip, error: error, text: text, index: index, checked: isChecked, href: href }
-        const imageButton = (alt == null) ? '' : `<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#imageModal" $data-bs-alt="${alt}" data-bs-src="${src}" data-bs-href="${href}" >画像</button>`
+        const imageButton = (alt == null) ? '' : `<button type="button" class="btn border-success-subtle bg-success-subtle text-success-emphasis" data-bs-toggle="modal" data-bs-target="#imageModal" $data-bs-alt="${alt}" data-bs-src="${src}" data-bs-href="${href}" >画像</button>`
         const HTML = `
         <div class="col-sm-12 col-md-6 col-lg-4 col-xxl-3 mb-3" id="counterlink-no-${index}">
-          <div class="card h-100 bg-secondary">
+          <div class="card h-100">
             <div class="card-header d-flex justify-content-between p-0">
               <p class="m-0 py-2 px-3 text-truncate w-100" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="${tooltip}" data-bs-custom-class="${error}">${text}</p>
               <input class="bg-transparent flex-shrink-0 form-check-input h2 m-0 rounded-0" type="checkbox" role="button" ${isChecked}>
             </div>
             <div class="card-body">
-              <a href="${href}" target="_blank" class="card-text link-dark text-break">${href}</a>
+              <a href="${href}" target="_blank" class="card-text text-body text-break">${href}</a>
             </div>
             <div class="card-footer border-top-0 pt-0 pb-3 bg-transparent d-flex flex-wrap justify-content-between">
               <div class="input-group mb-3">
