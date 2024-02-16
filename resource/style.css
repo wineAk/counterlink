@@ -53,7 +53,7 @@ header .dropdown-menu {
 }
 
 main {
-  height: calc(100vh - var(--header-size) - var(--footer-size));
+  height: calc(100dvh - var(--header-size) - var(--footer-size));
   overflow-y: scroll;
 }
 
