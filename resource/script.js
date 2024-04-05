@@ -51,7 +51,7 @@ window.addEventListener('load', _ => {
    * スコア値の制御
    */
   const changeScore = elm => {
-    elm.addEventListener('change', event => {
+    elm.addEventListener('input', event => {
       const value = event.target.value
       const number = Number(value)
       event.target.value = (number < -100) ? -100 : (number > 100) ? 100 : number
