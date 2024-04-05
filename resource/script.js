@@ -26,9 +26,8 @@ window.addEventListener('load', _ => {
   /**
    * ☑外したら色を変える
    */
-  const changeChecked = event => {
-    const checkElm = event.target
-    const cardElm = event.target.closest('.card')
+  const changeChecked = checkElm => {
+    const cardElm = checkElm.closest('.card')
     const cardClassName = 'opacity-35'
     if (checkElm.checked) {
       cardElm.classList.remove(cardClassName)
@@ -183,8 +182,8 @@ window.addEventListener('load', _ => {
       htmlFileDom = dom
       // チェックの処理
       document.querySelectorAll('[id^="counterlink-no-"] input[type="checkbox"]').forEach(elm => {
-        changeChecked({ target: elm })
-        elm.addEventListener('change', event => changeChecked(event))
+        changeChecked(elm)
+        elm.addEventListener('change', event => changeChecked(event.target))
       })
       // スコアの処理
       document.querySelectorAll('[id^="counterlink-no-"] [type="number"]').forEach(elm => changeScore(elm))
