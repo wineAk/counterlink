@@ -6,6 +6,8 @@ window.addEventListener('load', _ => {
 
   /**
    * エスケープ
+   * @param {string} str エスケープしたい文字列
+   * @return {string} エスケープされた文字列
    */
   const getEscapeTxt = str => {
     if (str == null) return null
@@ -25,6 +27,7 @@ window.addEventListener('load', _ => {
 
   /**
    * ☑外したら色を変える
+   * @param {element} checkElm [type="checkbox"]のElement
    */
   const changeChecked = checkElm => {
     const cardElm = checkElm.closest('.card')
@@ -48,6 +51,7 @@ window.addEventListener('load', _ => {
 
   /**
    * スコア値の制御
+   * @param {element} elm [type="number"]のElement
    */
   const changeScore = elm => {
     elm.addEventListener('input', event => {
@@ -60,6 +64,7 @@ window.addEventListener('load', _ => {
 
   /**
    * テキストエリアの制御
+   * @param {element} elm textareaのElement
    */
   const changeTextarea = elm => {
     elm.addEventListener('input', event => {
