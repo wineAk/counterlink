@@ -40,16 +40,6 @@ window.addEventListener('load', _ => {
   }
 
   /**
-   * モーダルの処理
-   */
-  const imageModalElm = document.getElementById('imageModal')
-  imageModalElm.addEventListener('show.bs.modal', event => {
-    const button = event.relatedTarget
-    const src = button.getAttribute('data-bs-src')
-    imageModalElm.querySelector('.modal-body').innerHTML = `<img src="${src}" class="img-fluid">`
-  })
-
-  /**
    * スコア値の制御
    * @param {element} elm [type="number"]のElement
    */
@@ -104,6 +94,16 @@ window.addEventListener('load', _ => {
       htmlElm.dataset.bsTheme = 'dark'
       dropMenuElm.querySelector('i').classList = 'fa-solid fa-moon'
     }
+  })
+
+  /**
+   * モーダルの処理
+   */
+  const imageModalElm = document.getElementById('imageModal')
+  imageModalElm.addEventListener('show.bs.modal', event => {
+    const button = event.relatedTarget
+    const src = button.getAttribute('data-bs-src')
+    imageModalElm.querySelector('.modal-body').innerHTML = `<img src="${src}" class="img-fluid">`
   })
 
   /**
