@@ -60,6 +60,18 @@ window.addEventListener('load', _ => {
   changeScore(document.querySelector('#scoreValue'))
 
   /**
+   * テキストエリアの制御
+   */
+  const changeTextarea = elm => {
+    elm.addEventListener('input', event => {
+      const value = event.target.value
+      if (/\n/.test(value)) {
+        event.target.value = value.replace(/\n/g, '')
+      }
+    })
+  }
+
+  /**
    * スコア一括
    */
   document.getElementById('scoreSet').addEventListener('click', event => {
@@ -176,6 +188,8 @@ window.addEventListener('load', _ => {
       })
       // スコアの処理
       document.querySelectorAll('[id^="counterlink-no-"] [type="number"]').forEach(elm => changeScore(elm))
+      // テキストエリアの処理
+      document.querySelectorAll('[id^="counterlink-no-"] textarea').forEach(elm => changeTextarea(elm))
       // ツールチップ
       const tooltipList = Array.from(document.querySelectorAll('[data-bs-toggle="tooltip"]')).map(elm => {
         if (elm.getAttribute('data-bs-title') !== '') new bootstrap.Tooltip(elm)
